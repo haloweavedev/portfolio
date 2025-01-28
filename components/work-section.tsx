@@ -40,7 +40,7 @@ export function WorkSection() {
 
       <div className="relative">
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/5 pointer-events-none" />
+        <div className="absolute pointer-events-none" />
         
         <motion.div
           initial={{ opacity: 0 }}

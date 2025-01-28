@@ -19,7 +19,7 @@ interface InfiniteMovingCardsProps {
 
 export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
   items,
-  direction = "left",
+  direction = "right",
   speed = "slow",
   pauseOnHover = true,
   className,

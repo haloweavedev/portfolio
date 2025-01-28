@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "#how-it-works", label: "How it works" },
@@ -13,25 +12,13 @@ const navLinks = [
   { href: "#services", label: "Services" }
 ];
 
-const SCROLL_THRESHOLD = 100;
-
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
 
-  const headerWidth = useTransform(scrollY, [0, SCROLL_THRESHOLD], ["95%", "90%"]);
-  const backdropBlur = useTransform(scrollY, [0, SCROLL_THRESHOLD], [12, 16]);
-  const borderOpacity = useTransform(scrollY, [0, SCROLL_THRESHOLD], [0, 0.1]);
-  const backgroundOpacity = useTransform(scrollY, [0, SCROLL_THRESHOLD], [0.4, 0.6]);
-
-  useEffect(() => {
-    const updateScroll = () => {
-      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
-    };
-
-    window.addEventListener("scroll", updateScroll);
-    return () => window.removeEventListener("scroll", updateScroll);
-  }, []);
+  // Using scrollYProgress (0 to 1) instead of scrollY for more consistent animation
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [0, 0.3]);
+  const blur = useTransform(scrollYProgress, [0, 0.1], [0, 12]);
+  const borderOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 0.1]);
 
   return (
     <motion.header
@@ -39,28 +26,26 @@ export function Navbar() {
       animate={{ 
         y: 0, 
         opacity: 1,
-        transition: {
-          type: "spring",
-          stiffness: 260,
-          damping: 20,
-        }
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20
       }}
       className="fixed inset-x-0 top-5 z-50 flex justify-center"
     >
-      <motion.div 
-        style={{ width: headerWidth }}
-        className="max-w-[1120px]"
-      >
+      <div className="w-[95%] max-w-[1120px]">
         <motion.div 
+          className="rounded-xl px-6 py-4 transition-all duration-200"
+          initial={false}
           style={{
-            backdropFilter: `blur(${backdropBlur}px)`,
-            WebkitBackdropFilter: `blur(${backdropBlur}px)`,
-            backgroundColor: `rgba(0, 0, 0, ${backgroundOpacity})`,
-            borderColor: `rgba(255, 255, 255, ${borderOpacity})`,
+            backgroundColor: opacity.get() === 0 ? "transparent" : `rgba(0, 0, 0, ${opacity})`,
+            backdropFilter: blur.get() === 0 ? "none" : `blur(${blur.get()}px)`,
+            WebkitBackdropFilter: blur.get() === 0 ? "none" : `blur(${blur.get()}px)`,
+            borderColor: borderOpacity.get() === 0 ? "transparent" : `rgba(255, 255, 255, ${borderOpacity})`,
+            borderWidth: "1px",
+            borderStyle: "solid"
           }}
-          className={`rounded-xl px-6 py-4 transition-all duration-200 border ${
-            isScrolled ? 'border-white/10' : 'border-transparent'
-          }`}
         >
           <div className="flex items-center justify-between">
             <motion.div
@@ -117,7 +102,7 @@ export function Navbar() {
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     </motion.header>
   );
 }
