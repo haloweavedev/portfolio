@@ -1,6 +1,7 @@
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { WorkSection } from "@/components/work-section";
+import HowItWorks from "@/components/ui/how-it-works";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function Home() {
@@ -10,9 +11,7 @@ export default function Home() {
         <Navbar />
         <Hero />
         <WorkSection />
-        {/* Add other sections as they are created */}
-        {/* <HowItWorks /> */}
-        {/* <TestimonialSection /> */}
+        <HowItWorks />
       </main>
     </AuroraBackground>
   );

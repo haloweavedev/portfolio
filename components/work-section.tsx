@@ -25,7 +25,7 @@ export function WorkSection() {
         className="mb-16 flex items-center gap-4 justify-center"
       >
         <p className="text-2xl text-white/90 font-homemade-apple">
-          Have a look at some of our recent work!
+          Some  of  our  recent  work!
         </p>
         <motion.img
           src="/arrow-2.svg"
