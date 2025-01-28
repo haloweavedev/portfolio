@@ -3,19 +3,39 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
+  --background: #000212;
+  --foreground: #ffffff;
+  --primary: rgba(255, 255, 255, 0.1);
+  --primary-hover: rgba(255, 255, 255, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Optional smoothing and rendering hints */
+html {
+  -webkit-font-smoothing: antialiased; /* For WebKit-based browsers */
+  -moz-osx-font-smoothing: grayscale;  /* For Firefox on macOS */
+  text-rendering: optimizeLegibility;  /* Enhances legibility */
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: radial-gradient(circle at center, #000C1A, #000212);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .hero-button {
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-300 rounded-full;
+  }
+
+  .hero-button-primary {
+    @apply bg-gradient-to-r from-white/10 to-white/5 hover:from-white hover:to-gray-100 hover:text-gray-900 border border-white/10;
+  }
+
+  .hero-button-outline {
+    @apply border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/20;
+  }
 }
