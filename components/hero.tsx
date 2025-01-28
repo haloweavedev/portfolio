@@ -59,7 +59,7 @@ export function Hero() {
           <br className="hidden md:block" />
           tailored web solutions—from design to deployment to maintenance. 
           <br className="hidden md:block" />
-          Accelerate your success in today's digital-first world.
+          Accelerate your success in today&apos;s digital-first world.
         </motion.p>
 
         <motion.div
