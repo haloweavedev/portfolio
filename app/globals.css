@@ -39,3 +39,14 @@ body {
     @apply border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/20;
   }
 }
+
+/* Add this to your existing globals.css file */
+.footer-icon {
+  filter: invert(1) brightness(0.6);
+  transition: filter 0.3s ease;
+}
+
+.footer-icon:hover {
+  filter: invert(1) brightness(1);
+}
+

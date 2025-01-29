@@ -5,6 +5,7 @@ import HowItWorks from "@/components/ui/how-it-works";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import TestimonialSection from "@/components/testimonial";
 import WhoIsItFor from "@/components/who-is-it-for"
+import Footer from "@/components/footer"
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <HowItWorks />
         <TestimonialSection />
         <WhoIsItFor/>
+        <Footer />
       </main>
     </AuroraBackground>
   );
