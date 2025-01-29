@@ -22,8 +22,64 @@ const homemadeApple = Homemade_Apple({
 });
 
 export const metadata: Metadata = {
-  title: "Haloweave - AI Web Development Agency",
-  description: "Web Designs to double conversions in just 14 days",
+  metadataBase: new URL('https://haloweave.com'),
+  title: {
+    default: "Haloweave - AI-Powered Web Development Agency",
+    template: "%s | Haloweave"
+  },
+  description: "Transform your vision into high-converting websites in 14 days. AI-powered development combining cutting-edge technology with expert craftsmanship for measurable results.",
+  keywords: [
+    "AI web development",
+    "rapid web design",
+    "conversion optimization",
+    "custom web applications",
+    "AI-driven design",
+    "14-day delivery",
+    "web development agency",
+    "startup websites",
+    "enterprise web solutions",
+    "ecommerce development"
+  ],
+  authors: [{ name: "Haloweave" }],
+  creator: "Haloweave",
+  openGraph: {
+    title: "Haloweave - AI-Powered Web Development Agency",
+    description: "Double your conversions with our AI-driven web development. Rapid 14-day delivery with guaranteed results.",
+    url: 'https://haloweave.com',
+    siteName: "Haloweave",
+    images: [
+      {
+        url: "/meta-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Haloweave - AI-Powered Web Development",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Haloweave - AI-Powered Web Development",
+    description: "Transform your digital presence with AI-driven development. 14-day delivery with measurable results.",
+    images: ["/meta-image.jpg"],
+    creator: "@haloweave",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: 'https://haloweave.com',
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
