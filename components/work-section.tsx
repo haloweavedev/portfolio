@@ -6,12 +6,13 @@ import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 const projects = [
   { id: 1, image: "/projects/Assistly.png" },
   { id: 2, image: "/projects/Workmate.png" },
-  { id: 3, image: "/projects/SenateInsights.png" },
-  { id: 4, image: "/projects/JourneyofCompassion.png" },
-  { id: 5, image: "/projects/Aicompass.png" },
-  { id: 6, image: "/projects/Studionaadi.png" },
-  { id: 7, image: "/projects/BespokeAstrology.png" },
-  { id: 8, image: "/projects/Minerva.png" },
+  { id: 3, image: "/projects/RocketPosting.png" },
+  { id: 4, image: "/projects/SenateInsights.png" },
+  { id: 5, image: "/projects/JourneyofCompassion.png" },
+  { id: 6, image: "/projects/Aicompass.png" },
+  { id: 7, image: "/projects/Studionaadi.png" },
+  { id: 8, image: "/projects/BespokeAstrology.png" },
+  { id: 9, image: "/projects/Minerva.png" },
 ];
 
 export function WorkSection() {
