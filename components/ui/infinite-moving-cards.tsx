@@ -1,20 +1,22 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import { cn } from "@/lib/utils"
+import type React from "react"
+import { useEffect, useState, useRef } from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
 
 interface Project {
-  id: number;
-  image: string;
+  id: number
+  image: string
 }
 
 interface InfiniteMovingCardsProps {
-  items: Project[];
-  direction?: "left" | "right";
-  speed?: "fast" | "normal" | "slow";
-  pauseOnHover?: boolean;
-  className?: string;
+  items: Project[]
+  direction?: "left" | "right"
+  speed?: "fast" | "normal" | "slow"
+  pauseOnHover?: boolean
+  className?: string
 }
 
 export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
@@ -24,76 +26,93 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
   pauseOnHover = true,
   className,
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const scrollerRef = React.useRef<HTMLUListElement>(null);
-  const [start, setStart] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null)
+  const scrollerRef = useRef<HTMLUListElement>(null)
+  const [start, setStart] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     const addAnimation = () => {
       if (containerRef.current && scrollerRef.current) {
-        const scrollerContent = Array.from(scrollerRef.current.children);
+        const scrollerContent = Array.from(scrollerRef.current.children)
         scrollerContent.forEach((item) => {
-          const duplicatedItem = item.cloneNode(true);
-          scrollerRef.current?.appendChild(duplicatedItem);
-        });
-        getDirection();
-        getSpeed();
-        setStart(true);
+          const duplicatedItem = item.cloneNode(true)
+          scrollerRef.current?.appendChild(duplicatedItem)
+        })
+        getDirection()
+        getSpeed()
+        setStart(true)
       }
-    };
+    }
 
     const getDirection = () => {
       if (containerRef.current) {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          direction === "left" ? "forwards" : "reverse"
-        );
+        containerRef.current.style.setProperty("--animation-direction", direction === "left" ? "forwards" : "reverse")
       }
-    };
+    }
 
     const getSpeed = () => {
       if (containerRef.current) {
-        const duration =
-          speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
-        containerRef.current.style.setProperty("--animation-duration", duration);
+        const duration = speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s"
+        containerRef.current.style.setProperty("--animation-duration", duration)
       }
-    };
+    }
 
-    addAnimation();
-  }, [direction, speed]);
+    addAnimation()
+  }, [direction, speed])
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className
+        "scroller relative z-20 max-w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className,
       )}
+      initial={{ opacity: 0, filter: "blur(10px)" }}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.8 }}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex min-w-full shrink-0 gap-12 py-4 w-max flex-nowrap",
+          "flex min-w-full shrink-0 gap-4 py-4 w-max flex-nowrap",
           start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
         {items.map((project) => (
           <li
             key={project.id}
-            className="relative w-[600px] rounded-xl overflow-hidden flex-shrink-0"
+            className="relative rounded-xl overflow-hidden flex-shrink-0"
+            style={{
+              width: isMobile ? "80vw" : "600px",
+              height: isMobile ? "52vw" : "390px", // Maintains 1280:832 aspect ratio
+            }}
           >
             <Image
-              src={project.image}
+              src={project.image || "/placeholder.svg"}
               alt={`Project ${project.id}`}
-              width={600}
-              height={400}
-              className="object-cover object-center w-full h-full"
+              layout="fill"
+              objectFit="cover"
+              className="object-center"
               priority
             />
           </li>
         ))}
       </ul>
-    </div>
-  );
-};
+    </motion.div>
+  )
+}
