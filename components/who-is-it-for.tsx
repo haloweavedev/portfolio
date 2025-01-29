@@ -95,7 +95,7 @@ export default function WhoIsItFor() {
         </motion.div>
 
         <motion.div variants={containerVariants} className="grid md:grid-cols-3 gap-8 mb-16">
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <motion.div
               key={category.title}
               variants={itemVariants}
