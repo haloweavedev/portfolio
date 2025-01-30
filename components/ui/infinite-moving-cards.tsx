@@ -74,9 +74,6 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
     addAnimation()
   }, [direction, speed])
 
-  const cardWidth = isMobile ? "65vw" : "600px" // Reduced from 80vw to 65vw for mobile
-  const cardHeight = isMobile ? "42.25vw" : "390px" // Maintains the same aspect ratio (65 * 0.65 = 42.25)
-
   return (
     <motion.div
       ref={containerRef}
@@ -101,16 +98,16 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
             key={project.id}
             className="relative rounded-xl overflow-hidden flex-shrink-0"
             style={{
-              width: cardWidth,
-              height: cardHeight,
+              width: isMobile ? "80vw" : "600px",
+              height: isMobile ? "52vw" : "390px", // Maintains 1280:832 aspect ratio
             }}
           >
             <Image
               src={project.image || "/placeholder.svg"}
               alt={`Project ${project.id}`}
-              fill
-              sizes={`(max-width: 768px) ${cardWidth}, 600px`}
-              className="object-cover object-center"
+              layout="fill"
+              objectFit="cover"
+              className="object-center"
               priority
             />
           </li>
