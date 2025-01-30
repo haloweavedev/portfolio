@@ -9,12 +9,12 @@ const socials = [
   {
     name: "Email",
     icon: "/socials/mail.svg",
-    href: "mailto:hello@haloweave.com",
+    href: "mailto:haloweave@gmail.com",
   },
   {
     name: "X",
     icon: "/socials/x.svg",
-    href: "https://x.com/haloweave",
+    href: "https://x.com/haloweave_web",
   },
   {
     name: "Instagram",
