@@ -1,8 +1,7 @@
-// components/navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
@@ -18,13 +17,17 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const [hasScrolled, setHasScrolled] = useState(false);
 
-  // Smoother opacity and blur transitions
-  const opacity = useTransform(scrollY, [0, 50], [0, 0.85]);
-  const blur = useTransform(scrollY, [0, 50], [0, 8]);
+  // Transform values for background color and border
   const backgroundColor = useTransform(
     scrollY,
     [0, 50],
     ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.05)"]
+  );
+
+  const borderColor = useTransform(
+    scrollY,
+    [0, 50],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.1)"]
   );
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export function Navbar() {
             backgroundColor,
             backdropFilter: hasScrolled ? "blur(8px)" : "none",
             WebkitBackdropFilter: hasScrolled ? "blur(8px)" : "none",
-            borderColor: useTransform(scrollY, [0, 50], ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.1)"]),
+            borderColor,
             borderWidth: "1px",
             borderStyle: "solid",
           }}
