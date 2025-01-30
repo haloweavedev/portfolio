@@ -91,7 +91,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable} ${homemadeApple.variable}`}>
       <body className="font-inter font-light bg-gray-950 text-white antialiased">
         <ReactLenis root options={{
-          lerp: 0.075, // Reduced from 0.1 for smoother scrolling
+          lerp: 0.069, // Reduced from 0.1 for smoother scrolling
           duration: 1.2, // Added for more natural feel
           smoothWheel: true,
           touchMultiplier: 2,

@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { FadeIn } from "./fade-in";
 
 const steps = [
   {
@@ -24,101 +26,97 @@ const steps = [
   },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
-
 interface ProcessCardProps {
   number: string;
   title: string;
   description: string;
   className?: string;
+  delay: number;
 }
 
-function ProcessCard({ number, title, description, className }: ProcessCardProps) {
+function ProcessCard({ number, title, description, className, delay }: ProcessCardProps) {
   return (
-    <motion.div
-      variants={item}
+    <FadeIn
+      delay={delay}
+      fadeInDirection="none"
       className={cn(
         "group relative w-full rounded-xl overflow-hidden",
-        // ↓ Updated here from bg-black/20 to bg-black/10
         "backdrop-blur-sm",
         "border border-white/[0.03] hover:border-white/[0.08] transition-all duration-500",
         className
       )}
     >
-      {/* Main container with noise pattern */}
       <div className="size-full bg-repeat bg-[length:500px_500px] bg-noise-pattern">
         <div className="relative p-6 md:p-8 backdrop-brightness-[1.02]">
-          {/* Number now positioned relative to content area */}
           <motion.span
             initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-              delay: 0.2,
+            whileInView={{
+              opacity: 0.3,
+              scale: 1,
+              transition: {
+                type: "spring",
+                stiffness: 200,
+                damping: 20,
+                delay: delay + 0.2
+              }
             }}
+            viewport={{ once: true }}
             className="absolute top-4 right-6 text-5xl font-instrument-serif italic text-white/30"
           >
             {number}
           </motion.span>
 
           <div className="relative z-20">
-            <h3 className="text-2xl font-instrument-serif italic mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent group-hover:to-white/90 transition-all duration-500">
+            <motion.h3
+              initial={{ opacity: 0 }}
+              whileInView={{
+                opacity: 1,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.23, 1, 0.32, 1],
+                  delay: delay + 0.3
+                }
+              }}
+              viewport={{ once: true }}
+              className="text-2xl font-instrument-serif italic mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent group-hover:to-white/90 transition-all duration-500"
+            >
               {title}
-            </h3>
-            <p className="text-white/60 leading-relaxed group-hover:text-white/70 transition-colors duration-500">
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{
+                opacity: 0.6,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.23, 1, 0.32, 1],
+                  delay: delay + 0.4
+                }
+              }}
+              viewport={{ once: true }}
+              className="text-white leading-relaxed group-hover:text-white/70 transition-colors duration-500"
+            >
               {description}
-            </p>
+            </motion.p>
           </div>
         </div>
       </div>
-    </motion.div>
+    </FadeIn>
   );
 }
 
 export default function HowItWorks() {
-  return (
-    <section className="py-20 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="max-w-6xl mx-auto"
-      >
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-instrument-serif italic mb-6"
-          >
-            How We Work
-          </motion.h2>
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-6 flex-wrap md:flex-nowrap"
-          >
+  return (
+    <section className="py-20 px-4" ref={containerRef}>
+      <div className="max-w-6xl mx-auto">
+        <FadeIn className="text-center mb-16" delay={0.2}>
+          <h2 className="text-4xl md:text-5xl font-instrument-serif italic mb-6">
+            How We Work
+          </h2>
+
+          <div className="flex items-center justify-center gap-6 flex-wrap md:flex-nowrap text-white/70">
             <span className="flex items-center group">
               <img
                 src="/globe.svg"
@@ -145,29 +143,35 @@ export default function HowItWorks() {
               />
               Full Documentation
             </span>
-          </motion.p>
-        </div>
+          </div>
+        </FadeIn>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 relative"
-        >
-          {/* Animated gradient line connecting cards */}
-          <div className="absolute hidden md:block top-1/2 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <motion.div 
+            className="absolute hidden md:block top-1/2 left-[16.67%] right-[16.67%] h-px"
+            initial={{ opacity: 0 }}
+            animate={isInView ? {
+              opacity: 1,
+              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)",
+              transition: { 
+                duration: 1.2,
+                ease: [0.23, 1, 0.32, 1],
+                delay: 0.5 
+              }
+            } : {}}
+          />
 
-          {steps.map((step) => (
+          {steps.map((step, index) => (
             <ProcessCard
               key={step.number}
               number={step.number}
               title={step.title}
               description={step.description}
+              delay={0.3 + index * 0.15}
             />
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
