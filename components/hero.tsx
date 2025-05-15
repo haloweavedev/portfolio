@@ -66,10 +66,7 @@ export function Hero() {
           variants={itemVariants}
           className="flex justify-center gap-4"
         >
-          <Button variant="outline">
-            View Work
-          </Button>
-          <Button>
+          <Button onClick={() => window.open("https://cal.com/haloweave/15min", "_blank")}>
             Book a Call
             <Sparkles className="w-4 h-4" />
           </Button>
